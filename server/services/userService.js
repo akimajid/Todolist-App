@@ -4,9 +4,25 @@ const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = process.env;
 
 const register = async (userData) => {
-  const hashedPassword = await bcrypt.hash(userData.password, 10);
-  const newUser = await User.create({ ...userData, password: hashedPassword });
-  return newUser;
+  if (!userData.name || !userData.password) {
+    throw new Error("Name and password are required");
+  }
+
+  try {
+    const hashedPassword = await bcrypt.hash(userData.password, 10);
+    console.log("Hashed password:", hashedPassword);
+
+    const newUser = await User.create({
+      ...userData,
+      password: hashedPassword,
+    });
+
+    console.log("New user created:", newUser);
+    return newUser;
+  } catch (error) {
+    console.log("Error creating user:", error.message);
+    throw new Error(error.message);
+  }
 };
 
 const login = async (email, password) => {
