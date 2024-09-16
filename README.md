@@ -1,2 +1,2 @@
 # Todolist-App
-Todolist app with react.js and express.js
+Todolist app with next.js and express.js
