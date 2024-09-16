@@ -1,55 +1,58 @@
+// components/Navbar.js
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useAuth } from "../../contexts/AuthContext";
 
 const Navbar = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [mounted, setMounted] = useState(false);
-  const router = useRouter();
-
-  useEffect(() => {
-    setMounted(true);
-
-    if (mounted) {
-      const token = localStorage.getItem("token");
-      setIsAuthenticated(!!token);
-    }
-  }, [mounted]);
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    setIsAuthenticated(false);
-    router.push("/auth/login");
-  };
-
-  if (!mounted) {
-    return null;
-  }
+  const { isAuthenticated, logout } = useAuth();
 
   return (
-    <nav className="bg-gray-800 text-white p-4">
+    <header className="bg-white border border-gray-400 text-gray-800 p-6 shadow-md">
       <div className="container mx-auto flex justify-between items-center">
-        <div className="text-2xl font-bold">
-          <Link href="/">Todo App</Link>
-        </div>
-        <div className="space-x-4">
-          <Link href="/todos">Todos</Link>
-          <Link href="/todos/create">Create Todo</Link>
-          {isAuthenticated ? (
-            <button className="hover:text-gray-400" onClick={handleLogout}>
-              Logout
-            </button>
-          ) : (
-            <>
-              <Link href="/auth/login">Login</Link>
-              <Link href="/auth/register">Register</Link>
-            </>
+        <div className="flex items-center space-x-4">
+          <Link
+            href="/"
+            className="text-xl font-bold text-black hover:text-[#02939e] transition-colors duration-300"
+          >
+            Todo App
+          </Link>
+          {isAuthenticated && (
+            <Link
+              href="/todos/create"
+              className="text-white bg-[#02939e] hover:bg-white hover:text-[#02939e] hover:border hover:border-[#02939e] font-semibold text-xs py-2 px-4 rounded-md transition-colors duration-300"
+            >
+              + Add New Todo
+            </Link>
           )}
         </div>
+        <nav className="space-x-4 flex items-center">
+          {!isAuthenticated ? (
+            <>
+              <Link
+                href="/auth/login"
+                className="text-white bg-[#02939e] hover:bg-white hover:text-[#02939e] hover:border hover:border-[#02939e] font-semibold text-xs py-2 px-4 rounded-md transition-colors duration-300"
+              >
+                Login
+              </Link>
+              <Link
+                href="/auth/register"
+                className="text-white bg-[#02939e] hover:bg-white hover:text-[#02939e] hover:border hover:border-[#02939e] font-semibold text-xs py-2 px-4 rounded-md transition-colors duration-300"
+              >
+                Sign Up
+              </Link>
+            </>
+          ) : (
+            <button
+              onClick={logout}
+              className="text-white bg-[#02939e] hover:bg-white hover:text-[#02939e] hover:border hover:border-[#02939e] font-semibold text-xs py-2 px-4 rounded-md transition-colors duration-300"
+            >
+              Logout
+            </button>
+          )}
+        </nav>
       </div>
-    </nav>
+    </header>
   );
 };
 
