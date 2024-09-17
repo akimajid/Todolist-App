@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { fetchTodoById, updateTodo } from "../../../../utils/api"; // Assumes fetchTodoById and updateTodo are defined
+import { fetchTodoById, updateTodo } from "../../../../utils/api";
 import moment from "moment";
 
 const UpdateTodo = ({ params }) => {
@@ -19,12 +19,12 @@ const UpdateTodo = ({ params }) => {
   useEffect(() => {
     const loadTodo = async () => {
       try {
-        const { data } = await fetchTodoById(id); // Fetch todo details by id
+        const { data } = await fetchTodoById(id);
         setTodo({
           title: data.title,
           description: data.description,
           status: data.status,
-          dueDate: moment(data.dueDate).format("YYYY-MM-DD"), // Format date for input
+          dueDate: moment(data.dueDate).format("YYYY-MM-DD"),
         });
       } catch (error) {
         console.error("Failed to fetch todo:", error);
@@ -47,8 +47,8 @@ const UpdateTodo = ({ params }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await updateTodo(id, todo); // Update the todo in the backend
-      router.push("/todos"); // Redirect to todos list
+      await updateTodo(id, todo);
+      router.push("/todos");
     } catch (error) {
       console.error("Failed to update todo:", error);
     }
