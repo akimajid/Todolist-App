@@ -23,7 +23,7 @@ api.interceptors.request.use(
 export const fetchTodos = () => api.get(`/todos`);
 export const fetchTodoById = (id) => api.get(`/todos/${id}`);
 export const createTodo = (todo) => api.post(`/todos`, todo);
-export const updateTodo = (id, todo) => api.put(`/todos/${id}`, todo);
+export const updateTodo = (id, todo) => api.patch(`/todos/${id}`, todo);
 export const deleteTodo = (id) => api.delete(`/todos/${id}`);
 
 // Auth API

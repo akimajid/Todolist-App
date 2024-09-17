@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { fetchTodos, deleteTodo } from "../../utils/api";
-import Footer from "../../components/Footer";
 import TodoItem from "../../components/TodoItem";
 import { useRouter } from "next/navigation";
 
@@ -47,15 +46,17 @@ const Todos = () => {
   return (
     <div className="min-h-screen bg-gray-100">
       <main className="container mx-auto p-4">
-        <h1 className="text-3xl font-bold mb-6">Todos List</h1>
+        <h1 className="text-3xl font-bold my-6">Todos List</h1>
         {todos.length === 0 ? (
           <div className="flex justify-center items-center h-full py-20">
             <p className="text-gray-500 text-lg italic">No todos available.</p>
           </div>
         ) : (
-          todos.map((todo) => (
-            <TodoItem key={todo.id} todo={todo} onDelete={handleDelete} />
-          ))
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {todos.map((todo) => (
+              <TodoItem key={todo.id} todo={todo} onDelete={handleDelete} />
+            ))}
+          </div>
         )}
       </main>
     </div>
